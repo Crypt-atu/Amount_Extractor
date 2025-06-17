@@ -3,7 +3,7 @@
 A sleek, terminal-based amount extractor, used to extract and evaluate monetary figures
 
 ![Python](https://img.shields.io/badge/python-3.10+-green.svg)
-![Status](https://img-shields.io/badge/status-active-success)
+
 
 ## Table of Contents
 - [About](#about)
@@ -13,10 +13,10 @@ A sleek, terminal-based amount extractor, used to extract and evaluate monetary 
 AMOUNT EXTRACTOR as the name suggest its a tool that extracts monetary figures from a pool of text and perform mathematical operations on them to get you answer. This saves you time in manual picking the figure and adding it.
 
 ## Features
--Fast
--Sumation
--Product
--Average
+- Fast
+- Sumation
+- Product
+- Average
 
 ## Demo
 ```bash 
