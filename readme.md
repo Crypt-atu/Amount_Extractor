@@ -31,6 +31,7 @@ $ pip install -r requirements.txt
 ```
 
 ## Screenshots
+![image](https://github.com/user-attachments/assets/531a3e74-2e3b-4ecb-89ca-3e30d40fe905)
 
 
 
