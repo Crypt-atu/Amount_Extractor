@@ -1,7 +1,7 @@
 #!/bin/python3
 '''
 AUTHOR: CRYPT_ATU
-NAME: AMOUNT EXTRACTOR.(Prototype)
+NAME: AMOUNT EXTRACTOR. v1.5
 '''
 
 #Necessary Import
@@ -32,7 +32,7 @@ def banner():
     print(Fore.GREEN + '''
     -------------------------------------------\n
     |   AUTHOR: CRYPT_ATU                      |\n
-    |   NAME: AMOUNT EXTRACTOR.v1              |\n
+    |   NAME: AMOUNT EXTRACTOR.v1.5             |\n
     |                                          |\n
     -------------------------------------------
     ''')
