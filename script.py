@@ -32,7 +32,7 @@ def banner():
     print(Fore.GREEN + '''
     -------------------------------------------\n
     |   AUTHOR: CRYPT_ATU                      |\n
-    |   NAME: AMOUNT EXTRACTOR.v1.5             |\n
+    |   NAME: AMOUNT EXTRACTOR.v1.5            |\n
     |                                          |\n
     -------------------------------------------
     ''')
@@ -43,7 +43,7 @@ print()
 
 try:
     #Intro Banners
-    typewriter_func("LOADING AMOUT_EXTRACTOR.v1»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", color=Fore.GREEN, delay=0.1)
+    typewriter_func("LOADING AMOUT_EXTRACTOR.v1.5»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", color=Fore.GREEN, delay=0.1)
     def menu():
         os.system('cls' if os.name == 'nt' else 'clear')
         banner()
