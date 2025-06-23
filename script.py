@@ -39,46 +39,50 @@ print()
 try:
     #Intro Banners
     typewriter_func("LOADING AMOUT_EXTRACTOR.v1»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", color=Fore.GREEN, delay=0.1)
-    os.system('cls' if os.name == 'nt' else 'clear')
-    banner()
-    print()
-    print()
-    typewriter_func("AMOUNT EXTRACTOR: The main aim of this is to calculate the amounts you have in a stream of text and give you an output based on the option you pick.", color=Fore.YELLOW)
-    typewriter_func("NOTE: Make sure the values you intend to calculate has a Currency Symbol in front of it to indicate its a money value.", color=Fore.RED)
+    def menu():
+        os.system('cls' if os.name == 'nt' else 'clear')
+        banner()
+        print()
+        print()
+        typewriter_func("AMOUNT EXTRACTOR: The main aim of this is to calculate the amounts you have in a stream of text and give you an output based on the option you pick.", color=Fore.YELLOW)
+        typewriter_func("NOTE: Make sure the values you intend to calculate has a Currency Symbol in front of it to indicate its a money value.", color=Fore.RED)
 
-    typewriter_func("Paste your text. Press Ctrl+D(Linux/Mac) or Ctrl+Z(Windows) then Enter to end.", color=Fore.CYAN)
+        typewriter_func("Paste your text. Press Ctrl+D(Linux/Mac) or Ctrl+Z(Windows) then Enter to end.", color=Fore.CYAN)
 
-    #Collect Sentence from User
-    sentence = sys.stdin.read()
+        #Collect Sentence from User
+        sentence = sys.stdin.read()
 
-    #Stores famous currency symbols
-    currency_symbols = list('₤₦€¥$')
+        #Stores famous currency symbols
+        currency_symbols = list('₤₦€¥$')
 
-    word_in_sentence = sentence.split()
+        word_in_sentence = sentence.split()
 
 
-    amount = []
+        amount = []
 
-    current_currency = " "
-    for word in word_in_sentence:
-        if word[0] in currency_symbols:
-            current_currency = word[0]
-            word = word[1:]
-            clean_numbers = word.replace(',','')
-            amount.append(clean_numbers)
+        current_currency = " "
+        for word in word_in_sentence:
+            if word[0] in currency_symbols:
+                current_currency = word[0]
+                word = word[1:]
+                clean_numbers = word.replace(',','')
+                amount.append(clean_numbers)
+        
+        return current_currency, amount
 
+    current_currency, amount = menu()
 
     #Functions to be performed
     def add_func(amount):
         summation = 0
         for value in amount:
-            summation = summation + int(value)
+            summation = summation + float(value)
         return summation
 
     def multiply_func(amount):
         product = 1
         for value in amount:
-            product = product * int(value)
+            product = product * float(value)
         return product
 
     def average_func(amount):
@@ -90,6 +94,8 @@ try:
     #Clear Screen
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
+
     #keep Option in Loop
     #Function call
     while True:
@@ -98,7 +104,8 @@ try:
         1). Adding the values.\n
         2). Multiplying the values.\n
         3). Getting the Average of the values.\n
-        4). Exit.\n
+        4). Back.\n
+        5). Exit.\n
 Choice>>>>''' + Style.RESET_ALL)
 
         print()
@@ -118,6 +125,8 @@ Choice>>>>''' + Style.RESET_ALL)
             print(Fore.BLUE + Style.BRIGHT + f'Answer:{current_currency}{average:,.2f}' + Style.RESET_ALL)
             time.sleep(1)
         elif choice == '4':
+            menu()
+        elif choice == '5':
             os.system('cls' if os.name == 'nt' else 'clear')
             typewriter_func("Closing AMOUNT EXTRACTOR.v1================", color = Fore.CYAN, delay=0.1)
             time.sleep(1)
