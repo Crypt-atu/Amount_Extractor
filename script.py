@@ -1,147 +1,89 @@
-#!/bin/python3
-'''
+#!/usr/bin/env python3
+"""
 AUTHOR: CRYPT_ATU
-NAME: AMOUNT EXTRACTOR.v1
-'''
+VERSION: 1.5
+NAME: Amount Extractor CLI (Upgraded)
+"""
 
-#Necessary Import
+#Import Calls
+import re
 import sys
-import os
-import time
+import argparse
+from decimal import Decimal, InvalidOperation
 from colorama import init, Fore, Style
 
-#Initialize colorama for Windows support
+#Establish Colorama
 init(autoreset=True)
 
-#TypeWritter Function
-def typewriter_func(text, color=Fore.WHITE, delay=0.05):
-    for char in text:
-        sys.stdout.write(color + char)
-        sys.stdout.flush()
-        time.sleep(delay)
-    print()
-    print()
+currency_symbols = list('₦$€£¥₹₽฿₩₫₪₴₲')
 
-#Banner Function
-def banner():
-    print(Fore.GREEN + '''
-    -------------------------------------------\n
-    |   AUTHOR: CRYPT_ATU                      |\n
-    |   NAME: AMOUNT EXTRACTOR.v1              |\n
-    |                                          |\n
-    -------------------------------------------
-    ''')
-print()
-print()
+def extract_amounts(text):
+    pattern = r'([' + ''.join(re.escape(sym) for sym in currency_symbols) + r'])(\s?\d[\d,]*\.?\d*)'
+    matches = re.findall(pattern, text)
 
+    currency_map = {}
+    for symbol, number in matches:
+        clean_number = number.replace(',', '').strip()
+        try:
+            amount = Decimal(clean_number)
+            currency_map.setdefault(symbol, []).append(amount)
+        except InvalidOperation:
+            continue
+    return currency_map
 
+def calculate(values, operation):
+    if operation == 'sum':
+        return sum(values)
+    elif operation == 'product':
+        result = Decimal(1)
+        for val in values:
+            result *= val
+        return result
+    elif operation == 'average':
+        return sum(values) / len(values) if values else 0
+    else:
+        raise ValueError("Unsupported operation")
 
-try:
-    #Intro Banners
-    typewriter_func("LOADING AMOUT_EXTRACTOR.v1»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»", color=Fore.GREEN, delay=0.1)
-    def menu():
-        os.system('cls' if os.name == 'nt' else 'clear')
-        banner()
-        print()
-        print()
-        typewriter_func("AMOUNT EXTRACTOR: The main aim of this is to calculate the amounts you have in a stream of text and give you an output based on the option you pick.", color=Fore.YELLOW)
-        typewriter_func("NOTE: Make sure the values you intend to calculate has a Currency Symbol in front of it to indicate its a money value.", color=Fore.RED)
+def display_results(data, operation):
+    for symbol, values in data.items():
+        result = calculate(values, operation)
+        print(Fore.CYAN + f"Currency: {symbol}")
+        print(Fore.GREEN + f"  ➤ Count: {len(values)}")
+        print(Fore.YELLOW + f"  ➤ {operation.capitalize()}: {symbol}{result:,.2f}\n")
 
-        typewriter_func("Paste your text. Press Ctrl+D(Linux/Mac) or Ctrl+Z(Windows) then Enter to end.", color=Fore.CYAN)
+def main():
+    parser = argparse.ArgumentParser(
+        description="💸 Amount Extractor CLI by CRYPT_ATU. Extracts and calculates money values from any text."
+    )
+    parser.add_argument("-o", "--operation", choices=["sum", "product", "average"], default="sum",
+                        help="Type of calculation: sum, product, or average (default: sum)")
+    parser.add_argument("-f", "--file", type=str, help="Text file containing data")
+    args = parser.parse_args()
 
-        #Collect Sentence from User
-        sentence = sys.stdin.read()
+    # Read text input
+    if args.file:
+        try:
+            with open(args.file, 'r', encoding='utf-8') as f:
+                text = f.read()
+        except Exception as e:
+            print(Fore.RED + f"[ERROR] Cannot read file: {e}")
+            sys.exit(1)
+    else:
+        if sys.stdin.isatty():
+            print(Fore.BLUE + "Paste your text and press Ctrl+D (Linux/Mac) or Ctrl+Z (Windows) to end:")
+        text = sys.stdin.read()
 
-        #Stores famous currency symbols
-        currency_symbols = list('₤₦€¥$')
-
-        word_in_sentence = sentence.split()
-
-
-        amount = []
-
-        current_currency = " "
-        for word in word_in_sentence:
-            if word[0] in currency_symbols:
-                current_currency = word[0]
-                word = word[1:]
-                clean_numbers = word.replace(',','')
-                amount.append(clean_numbers)
-        
-        return current_currency, amount
-
-    current_currency, amount = menu()
-
-    #Functions to be performed
-    def add_func(amount):
-        summation = 0
-        for value in amount:
-            summation = summation + float(value)
-        return summation
-
-    def multiply_func(amount):
-        product = 1
-        for value in amount:
-            product = product * float(value)
-        return product
-
-    def average_func(amount):
-        num = len(amount)
-        summation = add_func(amount)
-        average = summation / num
-        return average
-
-    #Clear Screen
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
-
-    #keep Option in Loop
-    #Function call
-    while True:
-        print()
-        choice = input(Fore.MAGENTA + '''Choose the action of choice to do with the numbers:\n
-        1). Adding the values.\n
-        2). Multiplying the values.\n
-        3). Getting the Average of the values.\n
-        4). Back.\n
-        5). Exit.\n
-Choice>>>>''' + Style.RESET_ALL)
-
-        print()
-        if choice == '1':
-            summation = add_func(amount)
-            print(Fore.BLUE + Style.BRIGHT + f'{len(amount)} Values Calculated' + Style.RESET_ALL)
-            print(Fore.BLUE + Style.BRIGHT + f'Answer:{current_currency}{summation:,}' + Style.RESET_ALL)
-            time.sleep(1)
-        elif choice == '2':
-            product = multiply_func(amount)
-            print(Fore.BLUE + Style.BRIGHT + f'{len(amount)} Values Calculated' + Style.RESET_ALL)
-            print(Fore.BLUE + Style.BRIGHT + f'Answer:{current_currency}{product:,}' + Style.RESET_ALL)
-            time.sleep(1)
-        elif choice == '3':
-            average = average_func(amount)
-            print(Fore.BLUE + Style.BRIGHT + f'{len(amount)} Values Calculated' + Style.RESET_ALL)
-            print(Fore.BLUE + Style.BRIGHT + f'Answer:{current_currency}{average:,.2f}' + Style.RESET_ALL)
-            time.sleep(1)
-        elif choice == '4':
-            menu()
-        elif choice == '5':
-            os.system('cls' if os.name == 'nt' else 'clear')
-            typewriter_func("Closing AMOUNT EXTRACTOR.v1================", color = Fore.CYAN, delay=0.1)
-            time.sleep(1)
-            typewriter_func("Author: Crypt_atu.", color = Fore.YELLOW, delay=0.1)
-            typewriter_func("Phone_no: 08136602086.", color = Fore.YELLOW, delay=0.1)
-            typewriter_func("Have a Nice Day!!!", color = Fore.YELLOW, delay=0.1)
-            break
-        else:
-            print('Invalid Option. Input the correct option given')
-
-except KeyboardInterrupt:
-    os.system('cls' if os.name == 'nt' else 'clear')
-    typewriter_func("\nInterrupt detected . Logging Out.....", color = Fore.RED, delay=0.1)
-    time.sleep(1)
-    typewriter_func("Author: Crypt_atu.", color = Fore.YELLOW, delay=0.1)
-    typewriter_func("Phone_no: 08136602086.", color = Fore.YELLOW, delay=0.1)
-    typewriter_func("Have a Nice Day!!!", color = Fore.YELLOW, delay=0.1)
+    # Process and output
+    data = extract_amounts(text)
+    if not data:
+        print(Fore.RED + "[INFO] No monetary values found.")
+        sys.exit(0)
     
+    display_results(data, args.operation)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print(Fore.RED + "\n[EXIT] Interrupted by user.")
+        sys.exit(0)

@@ -24,8 +24,9 @@ AMOUNT EXTRACTOR as the name suggest its a tool that extracts monetary figures f
 
 ## Demo
 ```bash 
-$ python script.py
-```
+$ python script.py  #For v1.0
+$ python script.py --help #For v1.5 (To Access your Options)
+``` 
 
 ## Installation
 ```bash
