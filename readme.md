@@ -20,16 +20,18 @@ AMOUNT EXTRACTOR as the name suggest its a tool that extracts monetary figures f
 - Sumation
 - Product
 - Average
+- Exporting
+- Scanning
 
 ## Demo
 ```bash 
 # Interactive
-$ amount_extractor
+$ amount-extractor
 ``` 
 
 ## Installation
 ```bash
-$ pip install amount_extractor
+$ pip install amount-extractor-app
 ```
 
 
