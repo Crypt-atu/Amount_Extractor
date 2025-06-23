@@ -1,6 +1,6 @@
 # Amount Extractor
 
-A sleek, terminal-based amount extractor, used to extract and evaluate monetary figures
+A sleek, Desktop App-based amount extractor, used to extract and evaluate monetary figures
 
 ![Python](https://img.shields.io/badge/python-3.10+-green.svg)
 
@@ -24,21 +24,12 @@ AMOUNT EXTRACTOR as the name suggest its a tool that extracts monetary figures f
 ## Demo
 ```bash 
 # Interactive
-$ python amount_extractor.py --operation average --currency ₦ --banner
-
-# From a file
-$ python amount_extractor.py --file transactions.txt --operation sum --export summary.txt
-
-# Pipe data
-$ echo "I paid ₦5000, $200, and ₦1500.50" | python amount_extractor.py --currency ₦
-
+$ amount_extractor
 ``` 
 
 ## Installation
 ```bash
-$ git clone https://github.com/Crypt-atu/Amount_Extractor.git
-$ cd AMOUNT_EXTRACTOR
-$ pip install -r requirements.txt
+$ pip install amount_extractor
 ```
 
 
